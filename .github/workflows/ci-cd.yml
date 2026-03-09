@@ -31,15 +31,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Backend
-        uses: docker/build-push-action@v4
-        with:
-          context: ./springboot/app
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring-app:latest
-
+        working-directory: ./springboot/app
+        run: |
+          docker build -t docker.io/${{ secrets.DOCKERHUB_USERNAME }}/springboot-app:latest .
+          docker push docker.io/${{ secrets.DOCKERHUB_USERNAME }}/springboot-app:latest 
       - name: Build and push Frontend
-        uses: docker/build-push-action@v4
-        with:
-          context: ./angular-app
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/angular-app:latest
+        working-directory: ./angular-app
+        run: |
+          docker build -t docker.io/${{ secrets.DOCKERHUB_USERNAME }}/angular-app:latest .
+          docker push docker.io/${{ secrets.DOCKERHUB_USERNAME }}/angular-app:latest
